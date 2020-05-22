@@ -1,17 +1,18 @@
 package unical.matteonotaro.aspIdeasServer.controllers;
 
+import it.unical.mat.embasp.languages.asp.AnswerSet;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import unical.matteonotaro.aspIdeasServer.configurations.DLVHandler;
 import unical.matteonotaro.aspIdeasServer.dto.ASPInput;
-import unical.matteonotaro.aspIdeasServer.dto.Project;
-import unical.matteonotaro.aspIdeasServer.dto.User;
 import unical.matteonotaro.aspIdeasServer.repository.ProjectRepository;
 import unical.matteonotaro.aspIdeasServer.repository.UserRepository;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -28,17 +29,10 @@ public class ProgramController {
         this.projectRepository = projectRepository;
     }
 
-    @PostMapping(value = "api/saveProgram")
-    public void saveProgram(@RequestBody ASPInput input, @RequestBody String projectId, HttpServletRequest request) {
-        Optional<Project> project = projectRepository.findById(projectId);
-        if (project.isPresent()) {
-            Project project1 = project.get();
-            projectRepository.save(project1);
-        }
-    }
-
-    @PostMapping(value = "api/evaluateProgram", consumes = "application/json", produces = "application/json")
-    public User evaluate(@RequestBody ASPInput in) {
-        return null;
+    @PostMapping(value = "api/{engine}/evaluateProgram", consumes = "application/json", produces = "application/json")
+    public List<AnswerSet> evaluate(@RequestBody ASPInput in, @PathVariable String engine) {
+        List<AnswerSet> answerSets = DLVHandler.getInstance().startGuess(new ArrayList<>(), in.getInputProgram());
+        log.info(String.valueOf(answerSets));
+        return answerSets;
     }
 }

@@ -10,6 +10,6 @@ import java.time.Duration;
 public class SessionConfiguration {
         @Bean
         public JdkMongoSessionConverter jdkMongoSessionConverter() {
-            return new JdkMongoSessionConverter(Duration.ofMinutes(30));
+            return new JdkMongoSessionConverter(Duration.ofDays(1));
         }
 }

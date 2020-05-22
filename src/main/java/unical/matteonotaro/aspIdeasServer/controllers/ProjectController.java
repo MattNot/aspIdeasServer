@@ -52,7 +52,8 @@ public class ProjectController {
         Optional<Project> optionalProject = projectRepository.findById(project);
         if (optionalProject.isPresent()){
             Project tempProj = optionalProject.get();
-            tempProj.getPrograms().add(new ASPInput(name,"",new ArrayList<>()));
+            ASPInput newFile = new ASPInput(name,"",new ArrayList<>(), tempProj.getId());
+            tempProj.getPrograms().add(newFile);
             projectRepository.save(tempProj);
             return tempProj.getId();
         }
@@ -61,6 +62,7 @@ public class ProjectController {
 
     @PostMapping(value = "api/projects/{project}/save")
     public void saveProject(@RequestBody ArrayList<ASPInput> programs, @PathVariable String project){
+        log.info(String.valueOf(programs));
         Optional<Project> optionalProject = projectRepository.findById(project);
         if (optionalProject.isPresent()){
             Project old = optionalProject.get();

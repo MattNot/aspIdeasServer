@@ -12,5 +12,6 @@ import java.util.ArrayList;
 public class ASPInput {
     String name;
     String inputProgram;
-    ArrayList<ASPTestCase> testCases;
+    ArrayList<String> testCases;
+    String father;
 }
