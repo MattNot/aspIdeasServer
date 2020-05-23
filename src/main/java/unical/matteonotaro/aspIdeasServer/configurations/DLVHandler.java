@@ -61,6 +61,7 @@ public class DLVHandler {
         this.encoding.clearAll();
         this.encoding.addProgram(path);
         this.handler.addProgram(this.encoding);
+        this.handler.addOption(new OptionDescriptor("-n 0 "));
     }
 
     private void addFact(Object object) {
