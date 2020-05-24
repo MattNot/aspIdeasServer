@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class DLVHandler {
-    private static final String pathToEncodings = "src/main/resources/encodings/";
     private static String pathToExe = null;
     private static DLVHandler instance = null;
     private Handler handler;
