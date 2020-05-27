@@ -69,10 +69,10 @@
         <!-- One day, maybe one day we will have it in the maven repo -->
         <dependency>
             <groupId>it.unical.mat</groupId>
-            <artifactId>embasp</artifactId>
+            <artifactId>JDLV</artifactId>
             <version>3.1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/libs/EmbASP-3.1.0.jar</systemPath>
+            <systemPath>${basedir}/src/main/resources/libs/DLVwrapper-v4.23_2_DLV2_CLINGO.jar</systemPath>
         </dependency>
     </dependencies>
 
