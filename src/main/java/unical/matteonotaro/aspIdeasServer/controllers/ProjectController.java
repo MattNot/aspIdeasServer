@@ -52,7 +52,7 @@ public class ProjectController {
         Optional<Project> optionalProject = projectRepository.findById(project);
         if (optionalProject.isPresent()){
             Project tempProj = optionalProject.get();
-            ASPInput newFile = new ASPInput(name,"",new ArrayList<>(), tempProj.getId());
+            ASPInput newFile = new ASPInput(name, "", tempProj.getId());
             tempProj.getPrograms().add(newFile);
             projectRepository.save(tempProj);
             return tempProj.getId();

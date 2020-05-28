@@ -6,12 +6,14 @@ import it.unical.mat.wrapper.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class ASPHandler {
     private static String pathToExe = null;
     private static ASPHandler instance = null;
     private DLVInputProgram inputProgram;
     private DLVInvocation dlvInvocation;
+    private StringBuilder result = new StringBuilder("");
 
     private ASPHandler() {
         this.setPathToExe();
@@ -23,7 +25,7 @@ public class ASPHandler {
             StringBuilder path = new StringBuilder(new File(".").getAbsolutePath());
             path.deleteCharAt(path.indexOf("."));
             pathToExe = path + "src" + File.separator + "main" +
-                    File.separator + "resources" + File.separator + "libs" + File.separator + "clingo";
+                    File.separator + "resources" + File.separator + "libs" + File.separator;
         }
     }
 
@@ -34,31 +36,37 @@ public class ASPHandler {
         return instance;
     }
 
-    public Object startGuess(String text) {
+    public ArrayList<String> startGuess(String externalProgram, ASPOptions options) {
         inputProgram = new DLVInputProgramImpl();
-        inputProgram.addText(text);
-        dlvInvocation = DLVWrapper.getInstance().createInvocation(pathToExe, SolverType.CLINGO);
+        inputProgram.addText(externalProgram);
+        ArrayList<String> models = new ArrayList<>();
+        dlvInvocation = DLVWrapper.getInstance().createInvocation(pathToExe + options.getExecutor(), options.getExecutor().equals("dlv2") ? SolverType.DLV2 : SolverType.CLINGO);
         ModelHandler modelHandler = (dlvInvocation, modelResult) -> {
-            System.out.println("NEXT MODEL: ");
             ((Model) modelResult).beforeFirst();
             while (((Model) modelResult).hasMorePredicates()) {
                 Predicate predicate = ((Model) modelResult).nextPredicate();
                 predicate.beforeFirst();
-                System.out.println(predicate.name());
                 while (predicate.hasMoreLiterals()) {
                     Literal literal = predicate.nextLiteral();
-                    System.out.println(literal);
+                    result.append(literal.toString()).append(",");
                 }
             }
+            result.deleteCharAt(result.lastIndexOf(","));
+            result.append("\n");
+            models.add(result.toString());
+            result = new StringBuilder("");
         };
         try {
-
             dlvInvocation.subscribe(modelHandler);
             dlvInvocation.setInputProgram(inputProgram);
+            dlvInvocation.addOption("-n " + options.getN());
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
+            return models;
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();
+        } finally {
+            this.result = new StringBuilder("");
         }
         return null;
     }

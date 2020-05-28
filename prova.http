@@ -1,3 +1,3 @@
-GET localhost:8080/api/evaluate?text=a(X):-b(X).b(1).b(2).f(X,B):-a(X),b(B).
+GET localhost:8080/api/evaluate?text=a(X):-b(X).b(1).b(2).f(X,B):-a(X),b(B).c|d.
 
 ###
