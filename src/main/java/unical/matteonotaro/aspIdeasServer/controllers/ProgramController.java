@@ -1,8 +1,5 @@
 package unical.matteonotaro.aspIdeasServer.controllers;
 
-//import it.unical.mat.embasp.languages.asp.AnswerSet;
-
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +26,9 @@ public class ProgramController {
         this.projectRepository = projectRepository;
     }
 
-    @SneakyThrows
     @PostMapping(value = "api/evaluate")
     public ArrayList<String> eval(@RequestBody EvaluateWrapper evaluateWrapper) {
         return ASPHandler.getInstance().startGuess(evaluateWrapper.getInput().getInputProgram(), evaluateWrapper.getOptions());
     }
+
 }
