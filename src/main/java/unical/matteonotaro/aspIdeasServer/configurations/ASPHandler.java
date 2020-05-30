@@ -2,6 +2,7 @@ package unical.matteonotaro.aspIdeasServer.configurations;
 
 
 import it.unical.mat.wrapper.*;
+import lombok.extern.slf4j.Slf4j;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.ASPTestCase;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.ASPAssertion;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+@Slf4j
 public class ASPHandler {
     private static String pathToExe = null;
     private static ASPHandler instance = null;
@@ -71,12 +73,14 @@ public class ASPHandler {
             dlvInvocation.subscribe(modelHandler);
             for (ASPAssertion assertion : testCase.getAssertions()) {
                 inputProgram.addText(assertion.generateTester(testCase.getProgram()));
+                log.info(inputProgram.getCompleteText());
                 dlvInvocation.setInputProgram(inputProgram);
                 dlvInvocation.addOption("-n 0");
                 dlvInvocation.run();
                 dlvInvocation.waitUntilExecutionFinishes();
+                log.info(String.valueOf(modelHandler.getOutputModels()));
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
-                dlvInvocation.setInputProgram(null);
+                dlvInvocation.reset();
             }
             return new ArrayList<>(Arrays.asList(modelHandler.getOutputModels(), assertionsResults));
         } catch (DLVInvocationException | IOException e) {

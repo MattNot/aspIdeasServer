@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.ASPAssertion;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 @Data
@@ -19,10 +18,10 @@ public abstract class TrueIn implements ASPAssertion {
     public abstract boolean check(ArrayList<Model> models);
 
     public String generateTester(String program) {
-        ArrayList<String> arrayList = (ArrayList<String>) Arrays.asList(atoms.split(Pattern.quote(".")));
+        String[] arrayList = atoms.split(Pattern.quote("."));
         StringBuilder builder = new StringBuilder(program);
         for (String atom : arrayList) {
-            builder.append("\n:- not ").append(atom).append(".");
+            builder.append("\n:- ").append(atom).append(".\n");
         }
         return builder.toString();
     }

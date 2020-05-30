@@ -12,8 +12,8 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ASPModelHandler implements ModelHandler {
-    ArrayList<Model> models = new ArrayList<>();
-    ArrayList<String> outputModels = new ArrayList<>();
+    private ArrayList<Model> models = new ArrayList<>();
+    private ArrayList<String> outputModels = new ArrayList<>();
     private StringBuilder result = new StringBuilder("");
 
     @Override

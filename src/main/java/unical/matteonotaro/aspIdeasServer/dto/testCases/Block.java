@@ -10,6 +10,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Block {
-    String name;
-    ArrayList<String> rules;
+    private String name;
+    private ArrayList<String> rules;
 }

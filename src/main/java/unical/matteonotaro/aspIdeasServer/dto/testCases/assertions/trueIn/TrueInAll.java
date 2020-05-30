@@ -11,7 +11,6 @@ public class TrueInAll extends TrueIn implements ASPAssertion {
     public boolean check(ArrayList<Model> models) {
         return models.size() == 0;
     }
-
     @Override
     public String getName() {
         return "TrueInAll";

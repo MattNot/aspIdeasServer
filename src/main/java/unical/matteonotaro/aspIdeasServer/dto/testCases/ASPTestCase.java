@@ -11,16 +11,15 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Data
 public class ASPTestCase {
-    String name;
-    ArrayList<Block> scope;
-    ArrayList<String> programFiles = new ArrayList<>();
-    String input;
-    ArrayList<ASPAssertion> assertions = new ArrayList<>();
-
+    private String name;
+    private ArrayList<Block> scope;
+    private ArrayList<String> programFiles = new ArrayList<>();
+    private String input;
+    private ArrayList<ASPAssertion> assertions = new ArrayList<>();
     public String getProgram() {
         StringBuilder builder = new StringBuilder();
         for (Block block : scope) {
-            for (String rule : block.rules)
+            for (String rule : block.getRules())
                 builder.append(rule);
         }
         for (String program : programFiles) {
