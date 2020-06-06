@@ -18,10 +18,11 @@ public abstract class TrueIn implements ASPAssertion {
     public abstract boolean check(ArrayList<Model> models);
 
     public String generateTester(String program) {
+        atoms = atoms.trim();
         String[] arrayList = atoms.split(Pattern.quote("."));
         StringBuilder builder = new StringBuilder(program);
         for (String atom : arrayList) {
-            builder.append("\n:- ").append(atom).append(".\n");
+            builder.append("\n:- not ").append(atom).append(".\n");
         }
         return builder.toString();
     }

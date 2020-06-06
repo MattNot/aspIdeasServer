@@ -37,6 +37,7 @@ public class ProgramController {
     @PostMapping(value = "api/test")
     public HashMap<String, ArrayList<Object>> test(@RequestBody TestWrapper testWrapper){
         HashMap<String, ArrayList<Object>> testResults = new HashMap<>();
+        log.error(String.valueOf(testWrapper));
         for (ASPTestCase testCase : testWrapper.getTestCases()){
             testResults.put(testCase.getName(), ASPHandler.getInstance().startTest(testWrapper.getOptions(), testCase));
         }

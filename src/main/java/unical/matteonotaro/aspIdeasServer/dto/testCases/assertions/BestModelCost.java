@@ -31,4 +31,9 @@ public class BestModelCost implements ASPAssertion {
     public String getName() {
         return "BestModelCost " + cost + "@" + level;
     }
+
+    @Override
+    public Integer getK() {
+        return 1;
+    }
 }

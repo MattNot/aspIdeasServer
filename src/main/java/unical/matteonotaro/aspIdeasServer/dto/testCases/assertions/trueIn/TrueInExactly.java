@@ -8,11 +8,16 @@ import java.util.ArrayList;
 public class TrueInExactly extends TrueInAtLeast implements ASPAssertion {
     @Override
     public boolean check(ArrayList<Model> models) {
-        return models.size() == num;
+        return models.size() == number;
     }
 
     @Override
     public String getName() {
-        return "TrueInExectly " + num;
+        return "TrueInExactly " + number;
+    }
+
+    @Override
+    public Integer getK() {
+        return super.getK() + 1;
     }
 }

@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.unical.mat.wrapper.Model;
-import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.*;
+import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInAll;
+import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInAtLeast;
+import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInAtMost;
+import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInExactly;
 
 import java.util.ArrayList;
 
@@ -12,18 +15,20 @@ import java.util.ArrayList;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes(
         {
-            @JsonSubTypes.Type(value = TrueInAll.class, name = "TrueInAll"),
-            @JsonSubTypes.Type(value = TrueInAtLeast.class, name = "TrueInAtLeast"),
-            @JsonSubTypes.Type(value = TrueInAtMost.class, name = "TrueInAtMost"),
-            @JsonSubTypes.Type(value = TrueInExactly.class, name = "TrueInExactly"),
-            @JsonSubTypes.Type(value = NoAnswerSet.class, name = "NoAnswerSets"),
-            @JsonSubTypes.Type(value = BestModelCost.class, name = "BestModelCost"),
+                @JsonSubTypes.Type(value = TrueInAll.class, name = "trueInAll"),
+                @JsonSubTypes.Type(value = TrueInAtLeast.class, name = "trueInAtLeast"),
+                @JsonSubTypes.Type(value = TrueInAtMost.class, name = "trueInAtMost"),
+                @JsonSubTypes.Type(value = TrueInExactly.class, name = "trueInExactly"),
+                @JsonSubTypes.Type(value = NoAnswerSet.class, name = "noAnswerSets"),
+                @JsonSubTypes.Type(value = BestModelCost.class, name = "testModelCost"),
         }
 )
 public interface ASPAssertion {
     boolean check(ArrayList<Model> models);
 
     String generateTester(String program);
+
+    Integer getK();
 
     String getName();
 }

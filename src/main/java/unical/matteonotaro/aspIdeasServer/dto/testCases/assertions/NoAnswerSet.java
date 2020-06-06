@@ -23,4 +23,9 @@ public class NoAnswerSet implements ASPAssertion {
     public String getName() {
         return "NoAnswerSet";
     }
+
+    @Override
+    public Integer getK() {
+        return 1;
+    }
 }

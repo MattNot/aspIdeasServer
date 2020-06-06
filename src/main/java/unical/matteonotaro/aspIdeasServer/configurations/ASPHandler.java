@@ -67,18 +67,17 @@ public class ASPHandler {
         HashMap<String, Boolean> assertionsResults = new HashMap<>();
         dlvInvocation = DLVWrapper.getInstance().createInvocation(pathToExe + options.getExecutor(),
                 options.getExecutor().equals("dlv2") ? SolverType.DLV2 : SolverType.CLINGO);
-
         ASPModelHandler modelHandler = new ASPModelHandler();
         try {
             dlvInvocation.subscribe(modelHandler);
             for (ASPAssertion assertion : testCase.getAssertions()) {
                 inputProgram.addText(assertion.generateTester(testCase.getProgram()));
-                log.info(inputProgram.getCompleteText());
+                log.error(inputProgram.getCompleteText());
                 dlvInvocation.setInputProgram(inputProgram);
-                dlvInvocation.addOption("-n 0");
+                dlvInvocation.addOption("-n 0"); // k basta
                 dlvInvocation.run();
                 dlvInvocation.waitUntilExecutionFinishes();
-                log.info(String.valueOf(modelHandler.getOutputModels()));
+                log.error(modelHandler.getModels().toString());
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
                 dlvInvocation.reset();
             }

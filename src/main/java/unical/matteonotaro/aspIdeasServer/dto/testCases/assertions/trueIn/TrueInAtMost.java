@@ -14,11 +14,16 @@ import java.util.ArrayList;
 public class TrueInAtMost extends TrueInAtLeast implements ASPAssertion {
     @Override
     public boolean check(ArrayList<Model> models) {
-        return models.size() <= num;
+        return models.size() <= number;
     }
 
     @Override
     public String getName() {
-        return "TrueInAtMost " + num;
+        return "TrueInAtMost " + number;
+    }
+
+    @Override
+    public Integer getK() {
+        return super.getK() + 1;
     }
 }

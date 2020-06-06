@@ -9,10 +9,16 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class TrueInAll extends TrueIn implements ASPAssertion {
     public boolean check(ArrayList<Model> models) {
-        return models.size() == 0;
+        return models.size() != 0;
     }
+
     @Override
     public String getName() {
         return "TrueInAll";
+    }
+
+    @Override
+    public Integer getK() {
+        return 1;
     }
 }
