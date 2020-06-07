@@ -54,6 +54,7 @@ public class ASPHandler {
             dlvInvocation.addOption("-n " + options.getN());
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
+            log.error(modelHandler.getModels().toString());
             return modelHandler.getOutputModels();
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();
@@ -70,14 +71,21 @@ public class ASPHandler {
         ASPModelHandler modelHandler = new ASPModelHandler();
         try {
             dlvInvocation.subscribe(modelHandler);
+            int highestK = 1; // 0 is the higher, no best name found :(
             for (ASPAssertion assertion : testCase.getAssertions()) {
                 inputProgram.addText(assertion.generateTester(testCase.getProgram()));
-                log.error(inputProgram.getCompleteText());
-                dlvInvocation.setInputProgram(inputProgram);
-                dlvInvocation.addOption("-n 0"); // k basta
-                dlvInvocation.run();
-                dlvInvocation.waitUntilExecutionFinishes();
-                log.error(modelHandler.getModels().toString());
+                if (assertion.getK() == 0) {
+                    highestK = 0;
+                }
+                if (highestK != 0 && assertion.getK() >= highestK) {
+                    highestK = assertion.getK();
+                }
+            }
+            dlvInvocation.setInputProgram(inputProgram);
+            dlvInvocation.addOption("-n " + highestK);
+            dlvInvocation.run();
+            dlvInvocation.waitUntilExecutionFinishes();
+            for (ASPAssertion assertion : testCase.getAssertions()) {
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
                 dlvInvocation.reset();
             }
