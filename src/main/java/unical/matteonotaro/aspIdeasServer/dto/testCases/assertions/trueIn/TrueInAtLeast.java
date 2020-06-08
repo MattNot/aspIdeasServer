@@ -15,8 +15,8 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @NoArgsConstructor
 @Slf4j
-public class TrueInAtLeast extends TrueIn implements ASPAssertion {
-    Integer number;
+public class TrueInAtLeast extends TrueIn{
+    public Integer number;
 
     @Override
     public boolean check(ArrayList<Model> models) {

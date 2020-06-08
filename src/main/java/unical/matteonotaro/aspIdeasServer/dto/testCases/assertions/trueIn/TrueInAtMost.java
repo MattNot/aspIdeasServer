@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class TrueInAtMost extends TrueInAtLeast implements ASPAssertion {
+public class TrueInAtMost extends TrueInAtLeast {
     @Override
     public boolean check(ArrayList<Model> models) {
         return models.size() <= number;

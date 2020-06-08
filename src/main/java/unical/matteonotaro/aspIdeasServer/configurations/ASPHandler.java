@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 public class ASPHandler {
@@ -54,8 +55,13 @@ public class ASPHandler {
             dlvInvocation.addOption("-n " + options.getN());
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
-            log.error(modelHandler.getModels().toString());
-            return modelHandler.getOutputModels();
+            if (dlvInvocation.getErrors().size() > 0){
+                List<DLVError> errors = dlvInvocation.getErrors();
+                ArrayList<String> err = new ArrayList<>();
+                errors.forEach(er -> err.add(er.getText()));
+                return err;
+            }
+            return modelHandler.getResults();
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();
         }
@@ -72,8 +78,9 @@ public class ASPHandler {
         try {
             dlvInvocation.subscribe(modelHandler);
             int highestK = 1; // 0 is the higher, no best name found :(
+            String p = testCase.getProgram();
             for (ASPAssertion assertion : testCase.getAssertions()) {
-                inputProgram.addText(assertion.generateTester(testCase.getProgram()));
+                p = assertion.generateTester(p);
                 if (assertion.getK() == 0) {
                     highestK = 0;
                 }
@@ -81,15 +88,23 @@ public class ASPHandler {
                     highestK = assertion.getK();
                 }
             }
+            inputProgram.addText(p);
+            log.error(inputProgram.getCompleteText());
             dlvInvocation.setInputProgram(inputProgram);
             dlvInvocation.addOption("-n " + highestK);
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
+            if (dlvInvocation.getErrors().size() > 0){
+                List<DLVError> errors = dlvInvocation.getErrors();
+                ArrayList<Object> err = new ArrayList<>();
+                errors.forEach(er -> err.add(er.getText()));
+                return err;
+            }
             for (ASPAssertion assertion : testCase.getAssertions()) {
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
                 dlvInvocation.reset();
             }
-            return new ArrayList<>(Arrays.asList(modelHandler.getOutputModels(), assertionsResults));
+            return new ArrayList<>(Arrays.asList(modelHandler.getResults(), assertionsResults));
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();
         }

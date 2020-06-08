@@ -13,31 +13,25 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class ASPModelHandler implements ModelHandler {
     private ArrayList<Model> models = new ArrayList<>();
-    private ArrayList<String> outputModels = new ArrayList<>();
     private StringBuilder result = new StringBuilder("");
 
     @Override
     public void handleResult(DLVInvocation dlvInvocation, ModelResult modelResult) {
-        ((Model) modelResult).beforeFirst();
-        while (((Model) modelResult).hasMorePredicates()) {
-            Predicate predicate = ((Model) modelResult).nextPredicate();
-            predicate.beforeFirst();
-            while (predicate.hasMoreLiterals()) {
-                Literal literal = predicate.nextLiteral();
-                result.append(literal.toString()).append(",");
-            }
-        }
-        result.deleteCharAt(result.lastIndexOf(","));
-        result.append("\n");
         models.add((Model) modelResult);
-        ((Model) modelResult).costAndPriority.forEach((key, value) -> result.append(value).append("@").append(key).append("\n"));
-        outputModels.add(result.toString());
-        result = new StringBuilder("");
+    }
+
+    public ArrayList<String> getResults(){
+        ArrayList<String> results = new ArrayList<>();
+        for (Model m:models){
+            StringBuilder cost = new StringBuilder();
+            m.costAndPriority.forEach((key, value) -> cost.append(value).append("@").append(key).append("\n"));
+            results.add(m.toString() + "\n"+ cost);
+        }
+        return results;
     }
 
     public void cleanup() {
         models.clear();
-        outputModels.clear();
         result = new StringBuilder();
     }
 }

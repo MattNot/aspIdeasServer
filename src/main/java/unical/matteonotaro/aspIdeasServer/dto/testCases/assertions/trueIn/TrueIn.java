@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class TrueIn implements ASPAssertion {
-    String atoms;
+    public String atoms;
 
     public abstract boolean check(ArrayList<Model> models);
 
