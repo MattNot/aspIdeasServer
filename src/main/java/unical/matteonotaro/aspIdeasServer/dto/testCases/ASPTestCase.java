@@ -22,9 +22,6 @@ public class ASPTestCase {
             for (String rule : block.getRules())
                 builder.append(rule);
         }
-//        for (String program : programFiles) {
-//            builder.append(program);
-//        }
         return builder.toString();
     }
 }

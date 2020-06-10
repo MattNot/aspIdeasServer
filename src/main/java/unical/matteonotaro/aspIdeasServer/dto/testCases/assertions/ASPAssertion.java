@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import it.unical.mat.wrapper.Model;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.constraintIn.ConstraintForAll;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.constraintIn.ConstraintInAtLeast;
+import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.constraintIn.ConstraintInAtMost;
+import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.constraintIn.ConstraintInExactly;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInAll;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInAtLeast;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.trueIn.TrueInAtMost;
@@ -23,7 +25,9 @@ import java.util.ArrayList;
                 @JsonSubTypes.Type(value = NoAnswerSet.class, name = "noAnswerSets"),
                 @JsonSubTypes.Type(value = BestModelCost.class, name = "testModelCost"),
                 @JsonSubTypes.Type(value = ConstraintForAll.class, name = "constraintForAll"),
-                @JsonSubTypes.Type(value = ConstraintInAtLeast.class, name = "constraintInAtLeast")
+                @JsonSubTypes.Type(value = ConstraintInAtLeast.class, name = "constraintInAtLeast"),
+                @JsonSubTypes.Type(value = ConstraintInAtMost.class, name = "constraintInAtMost"),
+                @JsonSubTypes.Type(value = ConstraintInExactly.class, name = "constraintInExactly")
         }
 )
 public interface ASPAssertion {

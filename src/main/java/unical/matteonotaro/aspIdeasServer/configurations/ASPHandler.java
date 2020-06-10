@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 @Slf4j
 public class ASPHandler {
@@ -55,12 +54,13 @@ public class ASPHandler {
             dlvInvocation.addOption("-n " + options.getN());
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
-            if (dlvInvocation.getErrors().size() > 0){
-                List<DLVError> errors = dlvInvocation.getErrors();
-                ArrayList<String> err = new ArrayList<>();
-                errors.forEach(er -> err.add(er.getText()));
-                return err;
-            }
+//            if (dlvInvocation.getErrors().size() > 0){
+//                List<DLVError> errors = dlvInvocation.getErrors();
+//                log.error(errors.toString());
+//                ArrayList<String> err = new ArrayList<>();
+//                errors.forEach(er -> err.add(er.getText()));
+//                return err;
+//            }
             return modelHandler.getResults();
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();
@@ -94,12 +94,12 @@ public class ASPHandler {
             dlvInvocation.addOption("-n " + highestK);
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
-            if (dlvInvocation.getErrors().size() > 0){
-                List<DLVError> errors = dlvInvocation.getErrors();
-                ArrayList<Object> err = new ArrayList<>();
-                errors.forEach(er -> err.add(er.getText()));
-                return err;
-            }
+//            if (dlvInvocation.getErrors().size() > 0){
+//                List<DLVError> errors = dlvInvocation.getErrors();
+//                ArrayList<Object> err = new ArrayList<>();
+//                errors.forEach(er -> err.add(er.getText()));
+//                return err;
+//            }
             for (ASPAssertion assertion : testCase.getAssertions()) {
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
                 dlvInvocation.reset();
