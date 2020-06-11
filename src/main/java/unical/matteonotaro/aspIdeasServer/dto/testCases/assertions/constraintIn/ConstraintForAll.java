@@ -1,9 +1,7 @@
 package unical.matteonotaro.aspIdeasServer.dto.testCases.assertions.constraintIn;
 
 import it.unical.mat.wrapper.Model;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 
@@ -11,7 +9,7 @@ import java.util.ArrayList;
 public class ConstraintForAll extends ConstraintIn {
     @Override
     public boolean check(ArrayList<Model> models) {
-        return models.size() == 0;
+        return models.size() != 0;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class TrueInAll extends TrueIn {
     public boolean check(ArrayList<Model> models) {
         System.out.println(models);
-        return models.size() != 0;
+        return models.size() == 0;
     }
 
     @Override
