@@ -22,6 +22,7 @@ public class ASPTestCase {
             for (String rule : block.getRules())
                 builder.append(rule);
         }
+        builder.append(input);
         return builder.toString();
     }
 }
