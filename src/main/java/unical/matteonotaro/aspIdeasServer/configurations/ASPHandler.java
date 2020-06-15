@@ -91,6 +91,8 @@ public class ASPHandler {
                 dlvInvocation.addOption("-n " + assertion.getK());
                 dlvInvocation.run();
                 dlvInvocation.waitUntilExecutionFinishes();
+                log.error(modelHandler.getModels().toString());
+                log.error(assertion.getClass().getTypeName());
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
                 inputProgram.clean();
                 dlvInvocation.resetState();
