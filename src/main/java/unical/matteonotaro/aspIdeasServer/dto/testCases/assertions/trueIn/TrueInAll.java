@@ -8,7 +8,6 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class TrueInAll extends TrueIn {
     public boolean check(ArrayList<Model> models) {
-        System.out.println(models);
         return models.size() == 0;
     }
 
