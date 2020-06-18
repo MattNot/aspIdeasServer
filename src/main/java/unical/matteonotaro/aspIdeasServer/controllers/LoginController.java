@@ -17,18 +17,16 @@ import java.util.Optional;
 @RestController
 @Slf4j
 public class LoginController {
-    private final HttpServletRequest request;
 
     final
     UserRepository userRepository;
 
-    public LoginController(UserRepository userRepository, HttpServletRequest request) {
+    public LoginController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.request = request;
     }
 
     @PostMapping(value = "/newUser")
-    public void register(@RequestBody Login login) {
+    public void register(@RequestBody Login login, HttpServletRequest request) {
         User u = new User();
         u.setPassword(login.getPassword());
         u.setUsername(login.getUsername());
@@ -37,7 +35,9 @@ public class LoginController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<?> login(@RequestBody Login login) {
+    public ResponseEntity<?> login(@RequestBody Login login, HttpServletRequest request) {
+        request.getSession().setMaxInactiveInterval(86400);
+
         Optional<User> optionalUser = userRepository.findByUsername(login.getUsername());
         User user;
         if (optionalUser.isPresent()) {
