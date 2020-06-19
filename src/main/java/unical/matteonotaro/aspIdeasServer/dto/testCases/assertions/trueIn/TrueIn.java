@@ -17,8 +17,7 @@ public abstract class TrueIn implements ASPAssertion {
 
     public abstract boolean check(ArrayList<Model> models);
 
-    /*TODO: Niente not per il TrueInAll*/
-
+    @Override
     public String generateTester(String program) {
         atoms = atoms.trim();
         String[] arrayList = atoms.split(Pattern.quote("."));
