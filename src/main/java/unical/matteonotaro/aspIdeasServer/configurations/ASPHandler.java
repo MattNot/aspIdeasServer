@@ -56,9 +56,7 @@ public class ASPHandler {
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
             if (dlvInvocation.getErrors().size() > 0 && options.getExecutor().equals("dlv2")) {
-                log.error(String.valueOf(dlvInvocation.getErrors()));
                 List<DLVError> errors = dlvInvocation.getErrors();
-                log.error(errors.toString());
                 ArrayList<String> err = new ArrayList<>();
                 errors.forEach(er -> err.add(er.getText()));
                 return err;
@@ -109,6 +107,27 @@ public class ASPHandler {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean checkOption(String option, String executor) {
+        inputProgram = new DLVInputProgramImpl();
+        inputProgram.addText("a.");
+        dlvInvocation = DLVWrapper.getInstance().createInvocation(pathToExe + executor,
+                executor.equals("dlv2") ? SolverType.DLV2 : SolverType.CLINGO);
+        ASPModelHandler modelHandler = new ASPModelHandler();
+        try {
+            dlvInvocation.subscribe(modelHandler);
+            dlvInvocation.setInputProgram(inputProgram);
+            dlvInvocation.addOption(option);
+            dlvInvocation.run();
+            dlvInvocation.waitUntilExecutionFinishes();
+            /*TODO: Clingo always got error*/
+            log.error(dlvInvocation.getErrors().get(0).getText());
+            return dlvInvocation.getErrors().size() == 0;
+        } catch (DLVInvocationException | IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }
