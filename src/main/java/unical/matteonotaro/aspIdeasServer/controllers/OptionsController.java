@@ -9,8 +9,8 @@ import unical.matteonotaro.aspIdeasServer.configurations.ASPHandler;
 @Slf4j
 public class OptionsController {
     @GetMapping(value = "/option")
-    public boolean testOption(String option, String executor) {
+    public boolean testOption(String option, String engine) {
         log.error(option);
-        return ASPHandler.getInstance().checkOption(option, executor);
+        return ASPHandler.getInstance().checkOption(option, engine);
     }
 }

@@ -121,8 +121,8 @@ public class ASPHandler {
             dlvInvocation.addOption(option);
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
-            /*TODO: Clingo always got error*/
-            log.error(dlvInvocation.getErrors().get(0).getText());
+            /*FIXME: Clingo always got error*/
+//            log.error(dlvInvocation.getErrors().get(0).getText());
             return dlvInvocation.getErrors().size() == 0;
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();
