@@ -52,7 +52,8 @@ public class ASPHandler {
         try {
             dlvInvocation.subscribe(modelHandler);
             dlvInvocation.setInputProgram(inputProgram);
-            dlvInvocation.addOption("-n " + options.getN());
+            for (String cliOption : options.getCliOptions())
+                dlvInvocation.addOption(cliOption);
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
             if (dlvInvocation.getErrors().size() > 0 && options.getExecutor().equals("dlv2")) {
@@ -111,7 +112,7 @@ public class ASPHandler {
 
     public boolean checkOption(String option, String executor) {
         inputProgram = new DLVInputProgramImpl();
-        inputProgram.addText("a.");
+        inputProgram.addText("%This is a Comment");
         dlvInvocation = DLVWrapper.getInstance().createInvocation(pathToExe + executor,
                 executor.equals("dlv2") ? SolverType.DLV2 : SolverType.CLINGO);
         ASPModelHandler modelHandler = new ASPModelHandler();

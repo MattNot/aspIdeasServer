@@ -36,6 +36,7 @@ public class ProjectController {
         Project project = new Project();
         project.setName(name);
         project.setPrograms(new ArrayList<>());
+        project.setCliOptions(new ArrayList<>());
         projectRepository.save(project);
         Optional<User> optionalUser = userRepository.findById((String) request.getSession().getAttribute("USER_ID"));
         if (optionalUser.isPresent()) {
@@ -87,5 +88,59 @@ public class ProjectController {
         }
         return projects;
     }
+
+    @GetMapping(value = "api/projects/{project}/cliOptions/add/{value}")
+    public void addCliOptions(@PathVariable String project, @PathVariable String value) {
+        Optional<Project> optionalProject = projectRepository.findById(project);
+        optionalProject.ifPresent(project1 -> project1.getCliOptions().add(value));
+        optionalProject.ifPresent(projectRepository::save);
+    }
+
+    @GetMapping(value = "api/projects/{project}/cliOptions/remove/{value}")
+    public void removeCliOptions(@PathVariable String project, @PathVariable String value) {
+        Optional<Project> optionalProject = projectRepository.findById(project);
+        optionalProject.ifPresent(project1 -> project1.getCliOptions().remove(value));
+        optionalProject.ifPresent(projectRepository::save);
+    }
+
+    @GetMapping(value = "api/projects/{project}/delete/{name}")
+    public void deleteFile(@PathVariable String project, @PathVariable String name) {
+        Optional<Project> optionalProject = projectRepository.findById(project);
+        if (optionalProject.isPresent()) {
+            Project p = optionalProject.get();
+            ArrayList<ASPInput> aspInputs = p.getPrograms();
+            aspInputs.removeIf(input -> input.getName().equals(name));
+            p.setPrograms(aspInputs);
+            projectRepository.save(p);
+        }
+    }
+
+    @GetMapping(value = "api/projects/{project}/delete")
+    public void deleteProject(@PathVariable String project) {
+        Optional<Project> optionalProject = projectRepository.findById(project);
+        optionalProject.ifPresent(projectRepository::delete);
+    }
+
+    @GetMapping(value = "api/projects/{project}/rename/{value}")
+    public void renameProject(@PathVariable String project, @PathVariable String value) {
+        Optional<Project> optionalProject = projectRepository.findById(project);
+        optionalProject.ifPresent(project1 -> project1.setName(value));
+    }
+
+    @GetMapping(value = "api/projects/{project}/rename/file/{filename}/{value}")
+    public void renameFile(@PathVariable String project, @PathVariable String value, @PathVariable String filename) {
+        Optional<Project> optionalProject = projectRepository.findById(project);
+        if (optionalProject.isPresent()) {
+            Project p = optionalProject.get();
+            ArrayList<ASPInput> aspInputs = p.getPrograms();
+            for (ASPInput in : aspInputs) {
+                if (in.getName().equals(filename))
+                    in.setName(value);
+            }
+            p.setPrograms(aspInputs);
+            projectRepository.save(p);
+        }
+    }
+
 
 }

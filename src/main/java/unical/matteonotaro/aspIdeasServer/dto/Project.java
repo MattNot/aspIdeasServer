@@ -20,4 +20,5 @@ public class Project {
     private String id;
     private String name;
     private ArrayList<ASPInput> programs;
+    private ArrayList<String> cliOptions;
 }
