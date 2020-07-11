@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class ConstraintForAll extends ConstraintIn {
     @Override
     public boolean check(ArrayList<Model> models) {
-        return models.size() != 0;
+        return models.size() == 0;
     }
 
     @Override

@@ -1,16 +1,20 @@
-package unical.matteonotaro.aspIdeasServer.configurations;
+package unical.matteonotaro.aspIdeasServer.utilities;
 
-import it.unical.mat.dlv.program.Literal;
-import it.unical.mat.wrapper.*;
+import it.unical.mat.wrapper.DLVInvocation;
+import it.unical.mat.wrapper.Model;
+import it.unical.mat.wrapper.ModelHandler;
+import it.unical.mat.wrapper.ModelResult;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class ASPModelHandler implements ModelHandler {
     private ArrayList<Model> models = new ArrayList<>();
     private StringBuilder result = new StringBuilder("");

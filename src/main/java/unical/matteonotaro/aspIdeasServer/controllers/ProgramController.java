@@ -4,12 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import unical.matteonotaro.aspIdeasServer.configurations.ASPHandler;
 import unical.matteonotaro.aspIdeasServer.dto.EvaluateWrapper;
 import unical.matteonotaro.aspIdeasServer.dto.TestWrapper;
 import unical.matteonotaro.aspIdeasServer.dto.testCases.ASPTestCase;
 import unical.matteonotaro.aspIdeasServer.repository.ProjectRepository;
-import unical.matteonotaro.aspIdeasServer.repository.UserRepository;
+import unical.matteonotaro.aspIdeasServer.utilities.ASPHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,13 +18,10 @@ import java.util.HashMap;
 public class ProgramController {
 
     final
-    UserRepository userRepository;
-
-    final
     ProjectRepository projectRepository;
 
-    public ProgramController(UserRepository userRepository, ProjectRepository projectRepository) {
-        this.userRepository = userRepository;
+    public ProgramController(ProjectRepository projectRepository) {
+
         this.projectRepository = projectRepository;
     }
 
@@ -35,10 +31,10 @@ public class ProgramController {
     }
 
     @PostMapping(value = "api/test")
-    public HashMap<String, ArrayList<Object>> test(@RequestBody TestWrapper testWrapper){
+    public HashMap<String, ArrayList<Object>> test(@RequestBody TestWrapper testWrapper) {
         HashMap<String, ArrayList<Object>> testResults = new HashMap<>();
         log.error(String.valueOf(testWrapper.getTestCases()));
-        for (ASPTestCase testCase : testWrapper.getTestCases()){
+        for (ASPTestCase testCase : testWrapper.getTestCases()) {
             log.info(testCase.toString());
             testResults.put(testCase.getName(), ASPHandler.getInstance().startTest(testWrapper.getOptions(), testCase));
         }

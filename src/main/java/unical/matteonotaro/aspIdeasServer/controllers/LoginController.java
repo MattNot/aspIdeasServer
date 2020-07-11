@@ -37,7 +37,6 @@ public class LoginController {
     @PostMapping(value = "/login")
     public ResponseEntity<?> login(@RequestBody Login login, HttpServletRequest request) {
         request.getSession().setMaxInactiveInterval(86400);
-
         Optional<User> optionalUser = userRepository.findByUsername(login.getUsername());
         User user;
         if (optionalUser.isPresent()) {

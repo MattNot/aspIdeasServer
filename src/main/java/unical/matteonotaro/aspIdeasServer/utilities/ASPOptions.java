@@ -1,4 +1,4 @@
-package unical.matteonotaro.aspIdeasServer.configurations;
+package unical.matteonotaro.aspIdeasServer.utilities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

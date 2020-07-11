@@ -1,4 +1,4 @@
-package unical.matteonotaro.aspIdeasServer.configurations;
+package unical.matteonotaro.aspIdeasServer.utilities;
 
 
 import it.unical.mat.wrapper.*;
@@ -19,7 +19,6 @@ public class ASPHandler {
     private static ASPHandler instance = null;
     private DLVInputProgram inputProgram;
     private DLVInvocation dlvInvocation;
-    HashMap<String, String> testCasesResults = new HashMap<>();
 
     private ASPHandler() {
         this.setPathToExe();
@@ -90,9 +89,9 @@ public class ASPHandler {
                 dlvInvocation.addOption("-n " + assertion.getK());
                 dlvInvocation.run();
                 dlvInvocation.waitUntilExecutionFinishes();
-                log.error(modelHandler.getModels().toString());
-                log.error(assertion.getClass().getTypeName());
+                log.error(String.valueOf(modelHandler.getModels()));
                 assertionsResults.put(assertion.getName(), assertion.check(modelHandler.getModels()));
+                modelHandler.cleanup();
                 inputProgram.clean();
                 dlvInvocation.resetState();
 //                }
@@ -123,7 +122,9 @@ public class ASPHandler {
             dlvInvocation.run();
             dlvInvocation.waitUntilExecutionFinishes();
             /*FIXME: Clingo always got error*/
-//            log.error(dlvInvocation.getErrors().get(0).getText());
+            log.error(dlvInvocation.getErrors().get(0).getText());
+            if (dlvInvocation.getErrors().get(0).getText().contains("30"))
+                return true;
             return dlvInvocation.getErrors().size() == 0;
         } catch (DLVInvocationException | IOException e) {
             e.printStackTrace();

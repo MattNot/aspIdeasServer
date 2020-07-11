@@ -124,7 +124,10 @@ public class ProjectController {
     @GetMapping(value = "api/projects/{project}/rename/{value}")
     public void renameProject(@PathVariable String project, @PathVariable String value) {
         Optional<Project> optionalProject = projectRepository.findById(project);
-        optionalProject.ifPresent(project1 -> project1.setName(value));
+        optionalProject.ifPresent(project1 -> {
+            project1.setName(value);
+            projectRepository.save(project1);
+        });
     }
 
     @GetMapping(value = "api/projects/{project}/rename/file/{filename}/{value}")

@@ -1,4 +1,4 @@
-package unical.matteonotaro.aspIdeasServer.configurations;
+package unical.matteonotaro.aspIdeasServer.utilities;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
